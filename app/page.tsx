@@ -1,6 +1,6 @@
 const Home = () => {
   return (
-    <h1 className="text-3xl text-violet-700 font-black">
+    <h1 className="font-black text-violet-700 text-3xl">
       Welcome to Next.js 👋
     </h1>
   );
