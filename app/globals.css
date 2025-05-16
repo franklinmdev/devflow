@@ -2,14 +2,6 @@
 
 @plugin "@tailwindcss/typography";
 
-body {
-  font-family: "Inter", sans-serif;
-}
-
-:root {
-  --radius: 8px;
-}
-
 @custom-variant dark (&:is(.dark *));
 
 @theme {
