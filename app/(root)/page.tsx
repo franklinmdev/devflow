@@ -1,6 +1,4 @@
-import { auth, signOut } from "@/auth";
-import { Button } from "@/components/ui/button";
-import ROUTES from "@/constants/routes";
+import { auth } from "@/auth";
 
 const Home = async () => {
   const session = await auth();
@@ -10,19 +8,8 @@ const Home = async () => {
   return (
     <>
       <h1 className="font-black text-violet-700 text-3xl">
-        Welcome to Next.js 👋
+        Welcome to Next.js 👋 redirect: true,
       </h1>
-      <form
-        className="px-10 pt-[100px]"
-        action={async () => {
-          "use server";
-          await signOut({
-            redirectTo: ROUTES.SIGN_IN,
-          });
-        }}
-      >
-        <Button type="submit">Log out</Button>
-      </form>
     </>
   );
 };
