@@ -10,12 +10,12 @@ const Navbar = () => {
       <Link href="/" className="flex items-center gap-1">
         <Image
           src="/images/site-logo.svg"
-          alt="DevFlow Logo"
+          alt="DevOverflow Logo"
           width={23}
           height={23}
         />
         <p className="max-sm:hidden font-space-grotesk text-dark-100 dark:text-light-900 h2-bold">
-          Dev<span className="text-primary-500">Flow</span>
+          Dev<span className="text-primary-500">Overflow</span>
         </p>
       </Link>
       <p>Global Search</p>

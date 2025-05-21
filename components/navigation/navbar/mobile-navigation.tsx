@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { auth } from "@/auth";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -13,7 +14,9 @@ import ROUTES from "@/constants/routes";
 
 import NavLinks from "./nav-links";
 
-const MobileNavigation = () => {
+const MobileNavigation = async () => {
+  const session = await auth();
+
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -50,23 +53,25 @@ const MobileNavigation = () => {
             </section>
           </SheetClose>
 
-          <div className="flex flex-col gap-3">
-            <SheetClose asChild>
-              <Link href={ROUTES.SIGN_IN}>
-                <Button className="shadow-none px-4 py-3 rounded-lg w-full min-h-[41px] small-medium btn-secondary">
-                  <span className="primary-text-gradient">Log In</span>
-                </Button>
-              </Link>
-            </SheetClose>
+          {!session?.user && (
+            <div className="flex flex-col gap-3">
+              <SheetClose asChild>
+                <Link href={ROUTES.SIGN_IN}>
+                  <Button className="shadow-none px-4 py-3 rounded-lg w-full min-h-[41px] small-medium btn-secondary">
+                    <span className="primary-text-gradient">Log In</span>
+                  </Button>
+                </Link>
+              </SheetClose>
 
-            <SheetClose asChild>
-              <Link href={ROUTES.SIGN_UP}>
-                <Button className="shadow-none px-4 py-3 border light-border-2 rounded-lg w-full min-h-[41px] text-dark400_light900 small-medium btn-tertiary">
-                  Sign Up
-                </Button>
-              </Link>
-            </SheetClose>
-          </div>
+              <SheetClose asChild>
+                <Link href={ROUTES.SIGN_UP}>
+                  <Button className="shadow-none px-4 py-3 border light-border-2 rounded-lg w-full min-h-[41px] text-dark400_light900 small-medium btn-tertiary">
+                    Sign Up
+                  </Button>
+                </Link>
+              </SheetClose>
+            </div>
+          )}
         </div>
       </SheetContent>
     </Sheet>
