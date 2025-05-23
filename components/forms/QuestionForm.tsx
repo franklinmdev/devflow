@@ -9,6 +9,7 @@ import { z } from "zod";
 
 import { AskQuestionSchema } from "@/lib/validations";
 
+import TagCard from "../cards/TagCard";
 import { Button } from "../ui/button";
 import {
   Form,
@@ -37,6 +38,45 @@ const QuestionForm = () => {
 
   const handleCreateQuestion = (values: z.infer<typeof AskQuestionSchema>) => {
     console.log(values);
+  };
+
+  const handleInputKeyDown = (
+    e: React.KeyboardEvent<HTMLInputElement>,
+    field: { value: string[] }
+  ) => {
+    console.log(field, e);
+    if (e.key === "Enter") {
+      e.preventDefault();
+      const tagInput = e.currentTarget.value.trim();
+
+      if (tagInput && tagInput.length < 15 && !field.value.includes(tagInput)) {
+        form.setValue("tags", [...field.value, tagInput]);
+        e.currentTarget.value = "";
+        form.clearErrors("tags");
+      } else if (tagInput.length > 15) {
+        form.setError("tags", {
+          type: "manual",
+          message: "Tag should be less than 15 characters",
+        });
+      } else if (field.value.includes(tagInput)) {
+        form.setError("tags", {
+          type: "manual",
+          message: "Tag already exists",
+        });
+      }
+    }
+  };
+
+  const handleTagRemove = (tag: string, field: { value: string[] }) => {
+    const newTags = field.value.filter((t: string) => t !== tag);
+    form.setValue("tags", newTags);
+
+    if (newTags.length === 0) {
+      form.setError("tags", {
+        type: "manual",
+        message: "At least one tag is required",
+      });
+    }
   };
 
   return (
@@ -103,9 +143,23 @@ const QuestionForm = () => {
                   <Input
                     className="border light-border-2 min-h-[56px] text-dark-300_light700 paragraph-regular no-focus background-light700_dark300"
                     placeholder="Add tags..."
-                    {...field}
+                    onKeyDown={(e) => handleInputKeyDown(e, field)}
                   />
-                  Tags
+                  {field.value.length > 0 && (
+                    <div className="flex-wrap flex-start gap-2.5 mt-2.5 body-regular">
+                      {field.value.map((tag) => (
+                        <TagCard
+                          key={tag}
+                          id={tag}
+                          name={tag}
+                          compact
+                          remove
+                          isButton
+                          handleRemove={() => handleTagRemove(tag, field)}
+                        />
+                      ))}
+                    </div>
+                  )}
                 </div>
               </FormControl>
               <FormDescription className="mt-2.5 text-light-500 body-regular">

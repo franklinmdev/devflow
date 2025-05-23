@@ -45,46 +45,12 @@ const Editor = ({ value, fieldChange, editorRef, ...props }: EditorProps) => {
   const { resolvedTheme } = useTheme();
   const theme = resolvedTheme === "dark" ? basicDark : [];
 
-  const codeBlockLanguages = React.useMemo(
-    () => ({
-      txt: "Plain Text",
-      js: "JavaScript",
-      ts: "TypeScript",
-      jsx: "JSX",
-      tsx: "TSX",
-      py: "Python",
-      java: "Java",
-      html: "HTML",
-      css: "CSS",
-      scss: "Sass/SCSS",
-      json: "JSON",
-      sql: "SQL",
-      md: "Markdown",
-      php: "PHP",
-      cpp: "C++",
-      c: "C",
-      cs: "C#",
-      go: "Go",
-      rb: "Ruby",
-      swift: "Swift",
-      rs: "Rust",
-      kt: "Kotlin",
-      dart: "Dart",
-      bash: "Bash",
-      sh: "Shell",
-      yaml: "YAML",
-      xml: "XML",
-      dockerfile: "Dockerfile",
-    }),
-    []
-  );
-
   return (
     <MDXEditor
       key={resolvedTheme}
       ref={editorRef}
       markdown={value}
-      className="border light-border-2 w-full background-light800_dark200 markdown-editor dark-editor"
+      className="grid border light-border-2 w-full background-light800_dark200 markdown-editor dark-editor"
       onChange={fieldChange}
       plugins={[
         headingsPlugin(),
@@ -143,6 +109,37 @@ const Editor = ({ value, fieldChange, editorRef, ...props }: EditorProps) => {
       {...props}
     />
   );
+};
+
+const codeBlockLanguages = {
+  txt: "Plain Text",
+  js: "JavaScript",
+  ts: "TypeScript",
+  jsx: "JSX",
+  tsx: "TSX",
+  py: "Python",
+  java: "Java",
+  html: "HTML",
+  css: "CSS",
+  scss: "Sass/SCSS",
+  json: "JSON",
+  sql: "SQL",
+  md: "Markdown",
+  php: "PHP",
+  cpp: "C++",
+  c: "C",
+  cs: "C#",
+  go: "Go",
+  rb: "Ruby",
+  swift: "Swift",
+  rs: "Rust",
+  kt: "Kotlin",
+  dart: "Dart",
+  bash: "Bash",
+  sh: "Shell",
+  yaml: "YAML",
+  xml: "XML",
+  dockerfile: "Dockerfile",
 };
 
 export default Editor;
