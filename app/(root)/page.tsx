@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { select } from "radash";
 
+import QuestionCard from "@/components/cards/question-card";
 import HomeFilter from "@/components/filters/home-filter";
 import LocalSearch from "@/components/search/local-search";
 import { Button } from "@/components/ui/button";
@@ -8,26 +9,40 @@ import ROUTES from "@/constants/routes";
 
 const questions = [
   {
-    id: 1,
+    id: "1",
     title: "What is the best way to learn React?",
-    description: "I want to learn React and I'm not sure where to start.",
-    tags: ["react", "javascript", "web development"],
-    author: { id: 1, name: "John Doe" },
+    tags: [
+      { id: "1", name: "react" },
+      { id: "2", name: "javascript" },
+      { id: "3", name: "web development" },
+    ],
+    author: {
+      id: "1",
+      name: "John Doe",
+      image: "https://api.dicebear.com/7.x/avataaars/svg?seed=John",
+    },
     upvotes: 10,
     views: 100,
     answers: 5,
     createdAt: new Date(),
   },
   {
-    id: 2,
+    id: "2",
     title: "How to use Next.js?",
-    description: "I want to learn Next.js and I'm not sure where to start.",
-    tags: ["next.js", "javascript", "web development"],
-    author: { id: 2, name: "Jane Doe" },
+    tags: [
+      { id: "1", name: "next.js" },
+      { id: "2", name: "javascript" },
+      { id: "3", name: "web development" },
+    ],
+    author: {
+      id: "2",
+      name: "Jane Doe",
+      image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Jane",
+    },
     upvotes: 10,
     views: 100,
     answers: 5,
-    createdAt: new Date(),
+    createdAt: new Date("2025-05-22"),
   },
 ];
 
@@ -42,7 +57,7 @@ const Home = async ({ searchParams }: SearchParams) => {
     questions,
     (q) => q,
     (q) =>
-      (filter === "" || q.tags.includes(filter)) &&
+      (filter === "" || q.tags.some((tag) => tag.name === filter)) &&
       q.title.toLowerCase().includes(query.toLowerCase())
   );
 
@@ -68,7 +83,7 @@ const Home = async ({ searchParams }: SearchParams) => {
       <HomeFilter />
       <div className="flex flex-col gap-6 mt-10 w-full">
         {filteredQuestions.map((question) => (
-          <h1 key={question.id}>{question.title}</h1>
+          <QuestionCard key={question.id} question={question} />
         ))}
       </div>
     </>

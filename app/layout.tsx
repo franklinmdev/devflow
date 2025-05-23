@@ -7,6 +7,7 @@ import { auth } from "@/auth";
 import ThemeProvider from "@/context/theme";
 
 import "./globals.css";
+import "@/lib/dayjs";
 
 const inter = Inter({
   variable: "--font-inter",
