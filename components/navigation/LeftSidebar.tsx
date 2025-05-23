@@ -5,7 +5,7 @@ import { auth } from "@/auth";
 import { Button } from "@/components/ui/button";
 import ROUTES from "@/constants/routes";
 
-import NavLinks from "./navbar/nav-links";
+import NavLinks from "./navbar/NavLinks";
 
 const LeftSidebar = async () => {
   const session = await auth();

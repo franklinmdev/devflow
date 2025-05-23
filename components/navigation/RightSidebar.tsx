@@ -3,7 +3,7 @@ import Link from "next/link";
 
 import ROUTES from "@/constants/routes";
 
-import TagCard from "../cards/tag-card";
+import TagCard from "../cards/TagCard";
 
 const topQuestions = [
   {

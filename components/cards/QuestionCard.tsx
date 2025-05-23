@@ -3,8 +3,8 @@ import Link from "next/link";
 
 import ROUTES from "@/constants/routes";
 
-import TagCard from "./tag-card";
-import Metric from "../metric";
+import TagCard from "./TagCard";
+import Metric from "../Metric";
 
 interface QuestionCardProps {
   question: Question;

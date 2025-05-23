@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { select } from "radash";
 
-import QuestionCard from "@/components/cards/question-card";
-import HomeFilter from "@/components/filters/home-filter";
-import LocalSearch from "@/components/search/local-search";
+import QuestionCard from "@/components/cards/QuestionCard";
+import HomeFilter from "@/components/filters/HomeFilter";
+import LocalSearch from "@/components/search/LocalSearch";
 import { Button } from "@/components/ui/button";
 import ROUTES from "@/constants/routes";
 
