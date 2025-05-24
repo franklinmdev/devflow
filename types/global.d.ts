@@ -1,16 +1,16 @@
 interface Author {
-  id: string;
+  _id: string;
   name: string;
   image: string;
 }
 
 interface Tag {
-  id: string;
+  _id: string;
   name: string;
 }
 
 interface Question {
-  id: string;
+  _id: string;
   title: string;
   tags: Tag[];
   author: Author;

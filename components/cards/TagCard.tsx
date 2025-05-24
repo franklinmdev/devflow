@@ -8,7 +8,7 @@ import { getDevIconClassName } from "@/lib/utils";
 import { Badge } from "../ui/badge";
 
 interface TagCardProps {
-  id: string;
+  _id: string;
   name: string;
   questions?: number;
   showCount?: boolean;
@@ -19,7 +19,7 @@ interface TagCardProps {
 }
 
 const TagCard = ({
-  id,
+  _id,
   name,
   questions,
   showCount,
@@ -60,7 +60,7 @@ const TagCard = ({
         {content}
       </button>
     ) : (
-      <Link href={ROUTES.TAGS(id)} className="flex justify-between gap-2">
+      <Link href={ROUTES.TAGS(_id)} className="flex justify-between gap-2">
         {content}
       </Link>
     );

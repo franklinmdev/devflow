@@ -7,42 +7,42 @@ import TagCard from "../cards/TagCard";
 
 const topQuestions = [
   {
-    id: "1",
+    _id: "1",
     title: "What is the best way to learn React?",
   },
   {
-    id: "2",
+    _id: "2",
     title: "How to use Tailwind CSS?",
   },
   {
-    id: "3",
+    _id: "3",
     title: "What is the best way to learn Next.js?",
   },
 ];
 
 const popularTags = [
   {
-    id: "1",
+    _id: "1",
     name: "React",
     questions: 10,
   },
   {
-    id: "2",
+    _id: "2",
     name: "Next.js",
     questions: 10,
   },
   {
-    id: "3",
+    _id: "3",
     name: "Tailwind CSS",
     questions: 10,
   },
   {
-    id: "4",
+    _id: "4",
     name: "JavaScript",
     questions: 10,
   },
   {
-    id: "5",
+    _id: "5",
     name: "TypeScript",
     questions: 10,
   },
@@ -54,11 +54,11 @@ const RightSidebar = () => {
       <div>
         <h3 className="text-dark200_light900 h3-bold">Top Questions</h3>
         <div className="flex flex-col gap-[30px] mt-7 w-full">
-          {topQuestions.map(({ id, title }) => (
+          {topQuestions.map(({ _id, title }) => (
             <Link
               className="flex justify-between items-center gap-2 cursor-pointer"
-              href={ROUTES.QUESTION(id.toString())}
-              key={id}
+              href={ROUTES.QUESTION(_id.toString())}
+              key={_id}
             >
               <p className="text-dark500_light700 body-medium">{title}</p>
               <Image
@@ -75,10 +75,10 @@ const RightSidebar = () => {
       <div className="mt-16">
         <h3 className="text-dark200_light900 h3-bold">Popular Tags</h3>
         <div className="flex flex-col gap-4 mt-7">
-          {popularTags.map(({ id, name, questions }) => (
+          {popularTags.map(({ _id, name, questions }) => (
             <TagCard
-              key={id}
-              id={id}
+              key={_id}
+              _id={_id}
               name={name}
               questions={questions}
               showCount

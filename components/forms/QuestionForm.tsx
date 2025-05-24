@@ -150,7 +150,7 @@ const QuestionForm = () => {
                       {field.value.map((tag) => (
                         <TagCard
                           key={tag}
-                          id={tag}
+                          _id={tag}
                           name={tag}
                           compact
                           remove

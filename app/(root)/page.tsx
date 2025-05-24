@@ -9,15 +9,15 @@ import ROUTES from "@/constants/routes";
 
 const questions = [
   {
-    id: "1",
+    _id: "1",
     title: "What is the best way to learn React?",
     tags: [
-      { id: "1", name: "react" },
-      { id: "2", name: "javascript" },
-      { id: "3", name: "web development" },
+      { _id: "1", name: "react" },
+      { _id: "2", name: "javascript" },
+      { _id: "3", name: "web development" },
     ],
     author: {
-      id: "1",
+      _id: "1",
       name: "John Doe",
       image: "https://api.dicebear.com/7.x/avataaars/svg?seed=John",
     },
@@ -27,15 +27,15 @@ const questions = [
     createdAt: new Date(),
   },
   {
-    id: "2",
+    _id: "2",
     title: "How to use Next.js?",
     tags: [
-      { id: "1", name: "next.js" },
-      { id: "2", name: "javascript" },
-      { id: "3", name: "web development" },
+      { _id: "1", name: "next.js" },
+      { _id: "2", name: "javascript" },
+      { _id: "3", name: "web development" },
     ],
     author: {
-      id: "2",
+      _id: "2",
       name: "Jane Doe",
       image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Jane",
     },
@@ -83,7 +83,7 @@ const Home = async ({ searchParams }: SearchParams) => {
       <HomeFilter />
       <div className="flex flex-col gap-6 mt-10 w-full">
         {filteredQuestions.map((question) => (
-          <QuestionCard key={question.id} question={question} />
+          <QuestionCard key={question._id} question={question} />
         ))}
       </div>
     </>

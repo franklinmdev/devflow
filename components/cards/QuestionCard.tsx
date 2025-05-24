@@ -11,7 +11,7 @@ interface QuestionCardProps {
 }
 
 const QuestionCard = ({
-  question: { id, tags, title, author, upvotes, views, answers, createdAt },
+  question: { _id, tags, title, author, upvotes, views, answers, createdAt },
 }: QuestionCardProps) => {
   return (
     <div className="p-9 sm:px-11 rounded-[10px] card-wrapper">
@@ -20,7 +20,7 @@ const QuestionCard = ({
           <span className="sm:hidden flex text-dark-400_light800 line-clamp-1 subtle-regular">
             {dayjs(createdAt).fromNow()}
           </span>
-          <Link href={ROUTES.QUESTION_DETAILS(id)}>
+          <Link href={ROUTES.QUESTION_DETAILS(_id)}>
             <h3 className="flex-1 text-dark-200_light900 line-clamp-1 sm:h3-semibold base-semibold">
               {title}
             </h3>
@@ -29,7 +29,7 @@ const QuestionCard = ({
       </div>
       <div className="flex flex-wrap gap-2 mt-3.5 w-full">
         {tags.map((tag: Tag) => (
-          <TagCard key={tag.id} id={tag.id} name={tag.name} compact />
+          <TagCard key={tag._id} _id={tag._id} name={tag.name} compact />
         ))}
       </div>
       <div className="flex-wrap flex-between gap-3 mt-6 w-full">
@@ -38,7 +38,7 @@ const QuestionCard = ({
           alt={author.name}
           value={author.name}
           title={` • asked ${dayjs(createdAt).fromNow()}`}
-          href={ROUTES.PROFILE(author.id)}
+          href={ROUTES.PROFILE(author._id)}
           textStyles="body-medium text-dark-400_light700"
           isAuthor
         />
