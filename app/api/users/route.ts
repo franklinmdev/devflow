@@ -9,51 +9,37 @@ import { UserSchema } from "@/lib/validations";
 export async function GET() {
   try {
     await dbConnect();
+
     const users = await User.find();
-    return NextResponse.json(
-      {
-        success: true,
-        data: users,
-      },
-      { status: 200 }
-    );
+
+    return NextResponse.json({ success: true, data: users }, { status: 200 });
   } catch (error) {
     return handleError(error, "api") as APIErrorResponse;
   }
 }
 
-export async function POST(req: Request) {
+export async function POST(request: Request) {
   try {
     await dbConnect();
-    const body = await req.json();
+    const body = await request.json();
+
     const validatedData = UserSchema.safeParse(body);
+
     if (!validatedData.success) {
       throw new ValidationError(validatedData.error.flatten().fieldErrors);
     }
 
     const { email, username } = validatedData.data;
+
     const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      throw new ValidationError({
-        email: ["User already exists"],
-      });
-    }
+    if (existingUser) throw new Error("User already exists");
 
     const existingUsername = await User.findOne({ username });
-    if (existingUsername) {
-      throw new ValidationError({
-        username: ["Username already exists"],
-      });
-    }
+    if (existingUsername) throw new Error("Username already exists");
 
     const newUser = await User.create(validatedData.data);
-    return NextResponse.json(
-      {
-        success: true,
-        data: newUser,
-      },
-      { status: 201 }
-    );
+
+    return NextResponse.json({ success: true, data: newUser }, { status: 201 });
   } catch (error) {
     return handleError(error, "api") as APIErrorResponse;
   }

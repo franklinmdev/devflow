@@ -6,6 +6,7 @@ import { NotFoundError, ValidationError } from "@/lib/http-errors";
 import dbConnect from "@/lib/mongoose";
 import { UserSchema } from "@/lib/validations";
 
+// GET /api/users/email
 export async function POST(request: Request) {
   const email = await request.json();
 
