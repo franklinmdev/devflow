@@ -14,7 +14,7 @@ export async function POST(request: Request) {
     await dbConnect();
     const validatedData = AccountSchema.pick({
       providerAccountId: true,
-    }).safeParse(providerAccountId);
+    }).safeParse({ providerAccountId });
 
     if (!validatedData.success)
       throw new ValidationError(validatedData.error.flatten().fieldErrors);

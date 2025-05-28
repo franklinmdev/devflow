@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const signInSchema = z.object({
+export const SignInSchema = z.object({
   email: z
     .string()
     .min(1, {
@@ -19,7 +19,7 @@ export const signInSchema = z.object({
     }),
 });
 
-export const signUpSchema = z.object({
+export const SignUpSchema = z.object({
   username: z
     .string()
     .min(3, { message: "Username must be at least 3 characters." })
