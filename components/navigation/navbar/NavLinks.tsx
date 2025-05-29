@@ -9,9 +9,13 @@ import { SheetClose } from "@/components/ui/sheet";
 import { sidebarLinks } from "@/constants";
 import { cn } from "@/lib/utils";
 
-const NavLinks = ({ isMobileNav = false }: { isMobileNav?: boolean }) => {
+interface NavLinksProps {
+  isMobileNav?: boolean;
+  userId?: string;
+}
+
+const NavLinks = ({ isMobileNav = false, userId }: NavLinksProps) => {
   const pathname = usePathname();
-  const userId = 1;
 
   return (
     <>
@@ -20,14 +24,18 @@ const NavLinks = ({ isMobileNav = false }: { isMobileNav?: boolean }) => {
           (pathname.includes(link.route) && link.route.length > 1) ||
           pathname === link.route;
 
+        let dynamicRoute = link.route;
         if (link.route === "/profile") {
-          if (userId) link.route = `${link.route}/${userId}`;
-          else return null;
+          if (userId) {
+            dynamicRoute = `${link.route}/${userId}`;
+          } else {
+            return null;
+          }
         }
 
         const LinkComponent = (
           <Link
-            href={link.route}
+            href={dynamicRoute}
             key={link.label}
             className={cn(
               "flex justify-start items-center gap-4 bg-transparent p-4",
@@ -55,11 +63,11 @@ const NavLinks = ({ isMobileNav = false }: { isMobileNav?: boolean }) => {
           </Link>
         );
         return isMobileNav ? (
-          <SheetClose asChild key={link.route}>
+          <SheetClose asChild key={dynamicRoute}>
             {LinkComponent}
           </SheetClose>
         ) : (
-          <React.Fragment key={link.route}>{LinkComponent}</React.Fragment>
+          <React.Fragment key={dynamicRoute}>{LinkComponent}</React.Fragment>
         );
       })}
     </>

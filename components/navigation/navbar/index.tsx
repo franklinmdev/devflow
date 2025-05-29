@@ -1,10 +1,15 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { auth } from "@/auth";
+import UserAvatar from "@/components/UserAvatar";
+
 import MobileNavigation from "./MobileNavigation";
 import Theme from "./Theme";
 
-const Navbar = () => {
+const Navbar = async () => {
+  const session = await auth();
+
   return (
     <nav className="z-50 fixed flex-between gap-5 shadow-light-300 dark:shadow-none p-6 sm:px-12 w-full background-light900_dark200">
       <Link href="/" className="flex items-center gap-1">
@@ -21,6 +26,13 @@ const Navbar = () => {
       <p>Global Search</p>
       <div className="flex-between gap-5">
         <Theme />
+        {session?.user ? (
+          <UserAvatar
+            id={session.user.id!}
+            name={session.user.name!}
+            imageUrl={session.user?.image || undefined}
+          />
+        ) : null}
         <MobileNavigation />
       </div>
     </nav>
