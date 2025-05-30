@@ -2,11 +2,16 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { MDXEditorMethods } from "@mdxeditor/editor";
+import { Loader2 } from "lucide-react";
 import dynamic from "next/dynamic";
-import React from "react";
+import { useRouter } from "next/navigation";
+import React, { useTransition } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
 
+import ROUTES from "@/constants/routes";
+import { createQuestion } from "@/lib/actions/question.action";
 import { AskQuestionSchema } from "@/lib/validations";
 
 import TagCard from "../cards/TagCard";
@@ -26,7 +31,9 @@ const Editor = dynamic(() => import("@/components/editor"), {
 });
 
 const QuestionForm = () => {
+  const router = useRouter();
   const editorRef = React.useRef<MDXEditorMethods>(null);
+  const [isPending, startTransition] = useTransition();
   const form = useForm<z.infer<typeof AskQuestionSchema>>({
     resolver: zodResolver(AskQuestionSchema),
     defaultValues: {
@@ -36,8 +43,23 @@ const QuestionForm = () => {
     },
   });
 
-  const handleCreateQuestion = (values: z.infer<typeof AskQuestionSchema>) => {
-    console.log(values);
+  const handleCreateQuestion = async (
+    data: z.infer<typeof AskQuestionSchema>
+  ) => {
+    const result = await createQuestion(data);
+
+    startTransition(async () => {
+      if (result.success) {
+        toast.success("Success", {
+          description: "Question created successfully",
+        });
+        if (result.data) router.push(ROUTES.QUESTION(result.data._id));
+      } else {
+        toast.error("Failed to create question", {
+          description: result.error?.message || "Something went wrong",
+        });
+      }
+    });
   };
 
   const handleInputKeyDown = (
@@ -174,8 +196,16 @@ const QuestionForm = () => {
           <Button
             type="submit"
             className="w-fit !text-light-900 primary-gradient"
+            disabled={isPending}
           >
-            Ask a question
+            {isPending ? (
+              <>
+                <Loader2 className="mr-2 size-4 animate-spin" />
+                <span>Submitting</span>
+              </>
+            ) : (
+              <>Ask a question</>
+            )}
           </Button>
         </div>
       </form>

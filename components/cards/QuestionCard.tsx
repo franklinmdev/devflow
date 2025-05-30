@@ -20,7 +20,7 @@ const QuestionCard = ({
           <span className="sm:hidden flex text-dark-400_light800 line-clamp-1 subtle-regular">
             {dayjs(createdAt).fromNow()}
           </span>
-          <Link href={ROUTES.QUESTION_DETAILS(_id)}>
+          <Link href={ROUTES.QUESTION(_id)}>
             <h3 className="flex-1 text-dark-200_light900 line-clamp-1 sm:h3-semibold base-semibold">
               {title}
             </h3>

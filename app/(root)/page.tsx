@@ -46,11 +46,7 @@ const questions = [
   },
 ];
 
-interface SearchParams {
-  searchParams: Promise<{ [key: string]: string }>;
-}
-
-const Home = async ({ searchParams }: SearchParams) => {
+const Home = async ({ searchParams }: RouteParams) => {
   const { query = "", filter = "" } = await searchParams;
 
   const filteredQuestions = select(
