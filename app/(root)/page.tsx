@@ -1,61 +1,23 @@
 import Link from "next/link";
-import { select } from "radash";
 
 import QuestionCard from "@/components/cards/QuestionCard";
 import HomeFilter from "@/components/filters/HomeFilter";
 import LocalSearch from "@/components/search/LocalSearch";
 import { Button } from "@/components/ui/button";
 import ROUTES from "@/constants/routes";
-
-const questions = [
-  {
-    _id: "1",
-    title: "What is the best way to learn React?",
-    tags: [
-      { _id: "1", name: "react" },
-      { _id: "2", name: "javascript" },
-      { _id: "3", name: "web development" },
-    ],
-    author: {
-      _id: "1",
-      name: "John Doe",
-      image: "https://api.dicebear.com/7.x/avataaars/svg?seed=John",
-    },
-    upvotes: 10,
-    views: 100,
-    answers: 5,
-    createdAt: new Date(),
-  },
-  {
-    _id: "2",
-    title: "How to use Next.js?",
-    tags: [
-      { _id: "1", name: "next.js" },
-      { _id: "2", name: "javascript" },
-      { _id: "3", name: "web development" },
-    ],
-    author: {
-      _id: "2",
-      name: "Jane Doe",
-      image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Jane",
-    },
-    upvotes: 10,
-    views: 100,
-    answers: 5,
-    createdAt: new Date("2025-05-22"),
-  },
-];
+import { getQuestions } from "@/lib/actions/question.action";
 
 const Home = async ({ searchParams }: RouteParams) => {
-  const { query = "", filter = "" } = await searchParams;
+  const { page, pageSize, query, filter } = await searchParams;
 
-  const filteredQuestions = select(
-    questions,
-    (q) => q,
-    (q) =>
-      (filter === "" || q.tags.some((tag) => tag.name === filter)) &&
-      q.title.toLowerCase().includes(query.toLowerCase())
-  );
+  const { success, data, error } = await getQuestions({
+    page: Number(page) || 1,
+    pageSize: Number(pageSize) || 10,
+    query: query || "",
+    filter: filter || "",
+  });
+
+  const { questions } = data || { questions: [] };
 
   return (
     <>
@@ -77,11 +39,25 @@ const Home = async ({ searchParams }: RouteParams) => {
         />
       </section>
       <HomeFilter />
-      <div className="flex flex-col gap-6 mt-10 w-full">
-        {filteredQuestions.map((question) => (
-          <QuestionCard key={question._id} question={question} />
-        ))}
-      </div>
+      {success ? (
+        <div className="flex flex-col gap-6 mt-10 w-full">
+          {questions && questions.length > 0 ? (
+            questions.map((question) => (
+              <QuestionCard key={question._id} question={question} />
+            ))
+          ) : (
+            <div className="flex justify-center items-center mt-10 w-full">
+              <p className="text-dark400_light700">No questions found</p>
+            </div>
+          )}
+        </div>
+      ) : (
+        <div className="flex justify-center items-center mt-10 w-full">
+          <p className="text-dark400_light700">
+            {error?.message || "Something went wrong"}
+          </p>
+        </div>
+      )}
     </>
   );
 };
