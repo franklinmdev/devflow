@@ -86,7 +86,7 @@ const TagCard = ({
           <span className="mr-2.5 primary-text-gradient body-semibold">
             {questions}+
           </span>
-          Questions
+          questions
         </p>
       </article>
     </Link>
