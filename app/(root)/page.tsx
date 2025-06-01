@@ -1,10 +1,12 @@
 import Link from "next/link";
 
 import QuestionCard from "@/components/cards/QuestionCard";
+import DataRenderer from "@/components/DataRenderer";
 import HomeFilter from "@/components/filters/HomeFilter";
 import LocalSearch from "@/components/search/LocalSearch";
 import { Button } from "@/components/ui/button";
 import ROUTES from "@/constants/routes";
+import { EMPTY_QUESTION } from "@/constants/states";
 import { getQuestions } from "@/lib/actions/question.action";
 
 const Home = async ({ searchParams }: RouteParams) => {
@@ -17,7 +19,7 @@ const Home = async ({ searchParams }: RouteParams) => {
     filter: filter || "",
   });
 
-  const { questions } = data || { questions: [] };
+  const { questions } = data || {};
 
   return (
     <>
@@ -33,31 +35,24 @@ const Home = async ({ searchParams }: RouteParams) => {
       <section className="mt-11">
         <LocalSearch
           route="/"
-          imgSrc="/icons/search.svg"
           placeholder="Search for questions here..."
           otherClasses="flex-1"
         />
       </section>
       <HomeFilter />
-      {success ? (
-        <div className="flex flex-col gap-6 mt-10 w-full">
-          {questions && questions.length > 0 ? (
-            questions.map((question) => (
+      <DataRenderer
+        success={success}
+        error={error}
+        data={questions}
+        empty={EMPTY_QUESTION}
+        render={(questions) => (
+          <div className="flex flex-col gap-6 mt-10 w-full">
+            {questions.map((question) => (
               <QuestionCard key={question._id} question={question} />
-            ))
-          ) : (
-            <div className="flex justify-center items-center mt-10 w-full">
-              <p className="text-dark400_light700">No questions found</p>
-            </div>
-          )}
-        </div>
-      ) : (
-        <div className="flex justify-center items-center mt-10 w-full">
-          <p className="text-dark400_light700">
-            {error?.message || "Something went wrong"}
-          </p>
-        </div>
-      )}
+            ))}
+          </div>
+        )}
+      />
     </>
   );
 };

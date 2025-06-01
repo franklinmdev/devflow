@@ -11,16 +11,18 @@ import { Input } from "../ui/input";
 
 interface LocalSearchProps {
   route: string;
-  imgSrc: string;
-  placeholder: string;
+  imgSrc?: string;
+  placeholder?: string;
   otherClasses?: string;
+  iconPosition?: "left" | "right";
 }
 
 const LocalSearch = ({
   route,
-  imgSrc,
-  placeholder,
+  imgSrc = "/icons/search.svg",
+  placeholder = "Search here...",
   otherClasses,
+  iconPosition = "left",
 }: LocalSearchProps) => {
   const pathname = usePathname();
   const router = useRouter();
@@ -58,13 +60,15 @@ const LocalSearch = ({
         otherClasses
       )}
     >
-      <Image
-        src={imgSrc}
-        alt="search"
-        width={24}
-        height={24}
-        className="cursor-pointer"
-      />
+      {iconPosition === "left" && (
+        <Image
+          src={imgSrc}
+          alt="search"
+          width={24}
+          height={24}
+          className="cursor-pointer"
+        />
+      )}
       <Input
         type="search"
         placeholder={placeholder}
@@ -72,6 +76,15 @@ const LocalSearch = ({
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
       />
+      {iconPosition === "right" && (
+        <Image
+          src={imgSrc}
+          alt="search"
+          width={24}
+          height={24}
+          className="cursor-pointer"
+        />
+      )}
     </div>
   );
 };

@@ -18,7 +18,7 @@ import {
 
 export async function createQuestion(
   params: CreateQuestionParams
-): Promise<ActionResponse<Question | null>> {
+): Promise<ActionResponse<Question> | ErrorResponse> {
   const validationResult = await action({
     params,
     schema: AskQuestionSchema,
@@ -85,7 +85,7 @@ export async function createQuestion(
 
 export async function editQuestion(
   params: EditQuestionParams
-): Promise<ActionResponse<IQuestionDoc | null>> {
+): Promise<ActionResponse<IQuestionDoc> | ErrorResponse> {
   const validationResult = await action({
     params,
     schema: EditQuestionSchema,
@@ -192,7 +192,7 @@ export async function editQuestion(
 
 export async function getQuestion(
   params: GetQuestionParams
-): Promise<ActionResponse<Question | null>> {
+): Promise<ActionResponse<Question> | ErrorResponse> {
   const validationResult = await action({
     params,
     schema: GetQuestionSchema,
@@ -223,7 +223,9 @@ export async function getQuestion(
 
 export async function getQuestions(
   params: PaginatedSearchParams
-): Promise<ActionResponse<{ questions: Question[]; isNext: boolean } | null>> {
+): Promise<
+  ActionResponse<{ questions: Question[]; isNext: boolean }> | ErrorResponse
+> {
   const validationResult = await action({
     params,
     schema: PaginatedSearchParamsSchema,
