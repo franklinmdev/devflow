@@ -7,11 +7,12 @@ interface MetricProps {
   imgUrl: string;
   alt: string;
   value: string | number;
-  title: string;
+  title?: string;
   textStyles?: string;
   isAuthor?: boolean;
   href?: string;
   imgStyles?: string;
+  titleStyles?: string;
 }
 
 const Metric = ({
@@ -23,6 +24,7 @@ const Metric = ({
   isAuthor,
   href,
   imgStyles,
+  titleStyles,
 }: MetricProps) => {
   const metricContent = (
     <>
@@ -34,13 +36,11 @@ const Metric = ({
         className={cn("rounded-full object-contain", imgStyles)}
       />
       <p className={cn(textStyles, "flex items-center gap-1")}>{value}</p>
-      <span
-        className={cn("small-regular line-clamp-1", {
-          "max-sm:hidden": isAuthor,
-        })}
-      >
-        {title}
-      </span>
+      {title ? (
+        <span className={cn("small-regular line-clamp-1", titleStyles)}>
+          {title}
+        </span>
+      ) : null}
     </>
   );
 
