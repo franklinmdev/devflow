@@ -65,4 +65,11 @@ export const api = {
         method: "DELETE",
       }),
   },
+  ai: {
+    generateAnswer: (question: string, content: string): APIResponse<string> =>
+      fetchHandler(`${API_BASE_URL}/ai/answers`, {
+        method: "POST",
+        body: JSON.stringify({ question, content }),
+      }),
+  },
 };

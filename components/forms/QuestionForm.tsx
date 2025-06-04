@@ -3,13 +3,13 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { MDXEditorMethods } from "@mdxeditor/editor";
 import { Loader2 } from "lucide-react";
-import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import React, { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
+import Editor from "@/components/editor";
 import ROUTES from "@/constants/routes";
 import { createQuestion, editQuestion } from "@/lib/actions/question.action";
 import { AskQuestionSchema } from "@/lib/validations";
@@ -26,9 +26,6 @@ import {
   FormMessage,
 } from "../ui/form";
 import { Input } from "../ui/input";
-const Editor = dynamic(() => import("@/components/editor"), {
-  ssr: false,
-});
 
 interface IQuestionFormProps {
   isEdit?: boolean;
@@ -61,7 +58,8 @@ const QuestionForm = ({ isEdit = false, question }: IQuestionFormProps) => {
         toast.success("Success", {
           description: "Question updated successfully",
         });
-        if (result.data) router.push(ROUTES.QUESTION(result.data._id));
+        if (result.data)
+          router.push(ROUTES.QUESTION(result.data._id as string));
       } else {
         toast.error("Failed to update question", {
           description: result.error?.message || "Something went wrong",
@@ -164,7 +162,7 @@ const QuestionForm = ({ isEdit = false, question }: IQuestionFormProps) => {
               </FormLabel>
               <FormControl>
                 <Editor
-                  editorRef={editorRef}
+                  ref={editorRef}
                   value={field.value}
                   fieldChange={field.onChange}
                 />
