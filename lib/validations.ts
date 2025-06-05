@@ -203,3 +203,8 @@ export const UpdateVoteCountSchema = CreateVoteSchema.extend({
     .min(1, { message: "Change must be 1 or -1." })
     .max(1, { message: "Change must be 1 or -1." }),
 });
+
+export const HasVotedSchema = CreateVoteSchema.pick({
+  targetId: true,
+  targetType: true,
+});
