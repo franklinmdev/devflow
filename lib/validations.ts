@@ -187,9 +187,9 @@ export const AIAnswerSchema = z.object({
 });
 
 export const CreateVoteSchema = z.object({
-  targetId: z.string().min(1, { message: "Target ID is required." }),
-  targetType: z.enum(["question", "answer"], {
-    message: "Invalid target type.",
+  actionId: z.string().min(1, { message: "Action ID is required." }),
+  actionType: z.enum(["question", "answer"], {
+    message: "Invalid action type.",
   }),
   voteType: z.enum(["upvote", "downvote"], {
     message: "Invalid vote type.",
@@ -205,6 +205,6 @@ export const UpdateVoteCountSchema = CreateVoteSchema.extend({
 });
 
 export const HasVotedSchema = CreateVoteSchema.pick({
-  targetId: true,
-  targetType: true,
+  actionId: true,
+  actionType: true,
 });

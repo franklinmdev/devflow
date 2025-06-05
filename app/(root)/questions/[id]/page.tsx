@@ -2,7 +2,7 @@ import dayjs from "dayjs";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { after } from "next/server";
-import React from "react";
+import React, { Suspense } from "react";
 
 import AllAnswers from "@/components/answers/AllAnswers";
 import TagCard from "@/components/cards/TagCard";
@@ -14,6 +14,7 @@ import Votes from "@/components/votes/Votes";
 import ROUTES from "@/constants/routes";
 import { getAnswers } from "@/lib/actions/answer.action";
 import { getQuestion, incrementViews } from "@/lib/actions/question.action";
+import { hasVoted } from "@/lib/actions/vote.action";
 import { formatNumber } from "@/lib/utils";
 
 const QuestionDetails = async ({ params }: RouteParams) => {
@@ -37,6 +38,11 @@ const QuestionDetails = async ({ params }: RouteParams) => {
     filter: "latest",
   });
 
+  const hasVotedPromise = hasVoted({
+    actionId: question._id,
+    actionType: "question",
+  });
+
   const { author, createdAt, answers, views, tags, title, content } = question;
 
   return (
@@ -58,12 +64,15 @@ const QuestionDetails = async ({ params }: RouteParams) => {
             </Link>
           </div>
           <div className="flex justify-end">
-            <Votes
-              upvotes={question.upvotes}
-              hasupVoted={true}
-              downvotes={question.downvotes}
-              hasdownVoted={false}
-            />
+            <Suspense fallback={<div>Loading...</div>}>
+              <Votes
+                upvotes={question.upvotes}
+                downvotes={question.downvotes}
+                hasVotedPromise={hasVotedPromise}
+                actionId={question._id}
+                actionType="question"
+              />
+            </Suspense>
           </div>
         </div>
         <h2 className="mt-3.5 w-full text-dark200_light900 h2-semibold">

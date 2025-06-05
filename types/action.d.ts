@@ -48,8 +48,8 @@ interface GetAnswersParams extends PaginatedSearchParams {
 }
 
 interface CreateVoteParams {
-  targetId: string;
-  targetType: "question" | "answer";
+  actionId: string;
+  actionType: "question" | "answer";
   voteType: "upvote" | "downvote";
 }
 
@@ -57,7 +57,7 @@ interface UpdateVoteCountParams extends CreateVoteParams {
   change: 1 | -1;
 }
 
-type HasVotedParams = Pick<CreateVoteParams, "targetId" | "targetType">;
+type HasVotedParams = Pick<CreateVoteParams, "actionId" | "actionType">;
 
 interface HasVotedResponse {
   hasUpvoted: boolean;
