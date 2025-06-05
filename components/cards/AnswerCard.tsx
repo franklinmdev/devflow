@@ -1,12 +1,27 @@
 import dayjs from "dayjs";
 import Link from "next/link";
+import { Suspense } from "react";
 
 import ROUTES from "@/constants/routes";
+import { hasVoted } from "@/lib/actions/vote.action";
 
 import Preview from "../editor/Preview";
 import UserAvatar from "../UserAvatar";
+import Votes from "../votes/Votes";
 
-const AnswerCard = ({ _id, author, content, createdAt }: Answer) => {
+const AnswerCard = ({
+  _id,
+  author,
+  content,
+  createdAt,
+  upvotes,
+  downvotes,
+}: Answer) => {
+  const hasVotedPromise = hasVoted({
+    actionId: _id,
+    actionType: "answer",
+  });
+
   return (
     <article className="py-10 light-border border-b">
       <span id={JSON.stringify(_id)} className="hash-span" />
@@ -32,7 +47,17 @@ const AnswerCard = ({ _id, author, content, createdAt }: Answer) => {
               </p>
             </Link>
           </div>
-          <div className="flex justify-end">Votes</div>
+          <div className="flex justify-end">
+            <Suspense fallback={<div>Loading...</div>}>
+              <Votes
+                upvotes={upvotes}
+                downvotes={downvotes}
+                hasVotedPromise={hasVotedPromise}
+                actionId={_id}
+                actionType="answer"
+              />
+            </Suspense>
+          </div>
         </div>
       </div>
       <Preview content={content} />
