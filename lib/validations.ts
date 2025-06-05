@@ -183,4 +183,5 @@ export const AIAnswerSchema = z.object({
   content: z
     .string()
     .min(10, { message: "Answer has to be at least 10 characters." }),
+  userAnswer: z.string().optional(),
 });
