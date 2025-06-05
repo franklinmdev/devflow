@@ -200,7 +200,7 @@ export const UpdateVoteCountSchema = CreateVoteSchema.extend({
   change: z
     .number()
     .int()
-    .min(1, { message: "Change must be 1 or -1." })
+    .min(-1, { message: "Change must be 1 or -1." })
     .max(1, { message: "Change must be 1 or -1." }),
 });
 

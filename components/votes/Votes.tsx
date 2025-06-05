@@ -54,15 +54,6 @@ const Votes = ({
             "An error occurred while voting. Please try again later.",
         });
       }
-
-      const successMessage =
-        voteType === "upvote"
-          ? `Upvote ${hasUpvoted ? "added" : "removed"}`
-          : `Downvote ${hasDownvoted ? "added" : "removed"}`;
-
-      toast.success(successMessage, {
-        description: "Your vote has been registered",
-      });
     } catch {
       toast.error("Failed to vote", {
         description: "An error occurred while voting. Please try again later.",
