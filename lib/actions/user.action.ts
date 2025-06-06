@@ -63,8 +63,10 @@ export async function getUsers(
 
     return {
       success: true,
-      data: { users, isNext },
-      status: 200,
+      data: {
+        users: JSON.parse(JSON.stringify(users)),
+        isNext,
+      },
     };
   } catch (error) {
     return handleError(error) as ErrorResponse;

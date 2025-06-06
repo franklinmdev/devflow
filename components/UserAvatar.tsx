@@ -21,7 +21,7 @@ const UserAvatar = ({
   fallbackClassName,
 }: Props) => {
   const initials = name
-    .split(" ")
+    ?.split(" ")
     .map((word: string) => word[0])
     .join("")
     .toUpperCase()
@@ -29,13 +29,11 @@ const UserAvatar = ({
 
   return (
     <Link href={ROUTES.PROFILE(id)}>
-      <Avatar className={className}>
+      <Avatar className={cn("relative", className)}>
         <AvatarImage
           src={imageUrl}
           alt={name}
-          className="object-cover"
-          width={36}
-          height={36}
+          className="w-full h-full object-cover"
         />
         <AvatarFallback
           className={cn(
