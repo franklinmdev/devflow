@@ -116,15 +116,16 @@ export async function getSavedQuestions(
 
   const userId = validationResult.session?.user?.id;
   const { page = 1, pageSize = 10, query, filter } = params;
+
   const skip = (Number(page) - 1) * pageSize;
   const limit = pageSize;
 
   const sortOptions: Record<string, Record<string, 1 | -1>> = {
-    mostRecent: { "question.createdAt": -1 },
+    mostrecent: { "question.createdAt": -1 },
     oldest: { "question.createdAt": 1 },
-    mostVoted: { "question.upvotes": -1 },
-    mostViewed: { "question.views": -1 },
-    mostAnswered: { "question.answers": -1 },
+    mostvoted: { "question.upvotes": -1 },
+    mostviewed: { "question.views": -1 },
+    mostanswered: { "question.answers": -1 },
   };
 
   const sortCriteria = sortOptions[filter as keyof typeof sortOptions] || {

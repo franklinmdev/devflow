@@ -1,3 +1,47 @@
-export default function Collections() {
-  return <div>Collections</div>;
-}
+import QuestionCard from "@/components/cards/QuestionCard";
+import DataRenderer from "@/components/DataRenderer";
+import LocalSearch from "@/components/search/LocalSearch";
+import ROUTES from "@/constants/routes";
+import { EMPTY_QUESTION } from "@/constants/states";
+import { getSavedQuestions } from "@/lib/actions/collection.action";
+
+const Collections = async ({ searchParams }: RouteParams) => {
+  const { page, pageSize, query, filter } = await searchParams;
+
+  const { success, data, error } = await getSavedQuestions({
+    page: Number(page) || 1,
+    pageSize: Number(pageSize) || 10,
+    query: query || "",
+    filter: filter || "",
+  });
+
+  const { collection } = data || {};
+
+  return (
+    <>
+      <h1 className="text-dark100_light900 h1-bold">Saved Questions</h1>
+      <section className="flex max-sm:flex-col justify-between sm:items-center gap-5 mt-11">
+        <LocalSearch
+          route={ROUTES.COLLECTION}
+          placeholder="Search for questions here..."
+          otherClasses="flex-1"
+        />
+      </section>
+      <DataRenderer
+        success={success}
+        error={error}
+        data={collection}
+        empty={EMPTY_QUESTION}
+        render={(collection) => (
+          <div className="flex flex-col gap-6 mt-10 w-full">
+            {collection.map((item) => (
+              <QuestionCard key={item._id} question={item.question} />
+            ))}
+          </div>
+        )}
+      />
+    </>
+  );
+};
+
+export default Collections;
