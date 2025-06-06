@@ -2,15 +2,25 @@
 
 import Image from "next/image";
 import { useSession } from "next-auth/react";
-import { useState } from "react";
+import { use, useState } from "react";
 import { toast } from "sonner";
 
 import { toggleSaveQuestion } from "@/lib/actions/collection.action";
 import { cn } from "@/lib/utils";
 
-const SaveQuestion = ({ questionId }: { questionId: string }) => {
+interface Props {
+  questionId: string;
+  hasSavedQuestionPromise: Promise<
+    ActionResponse<{ saved: boolean }> | ErrorResponse
+  >;
+}
+
+const SaveQuestion = ({ questionId, hasSavedQuestionPromise }: Props) => {
   const session = useSession();
   const userId = session.data?.user?.id;
+
+  const { data } = use(hasSavedQuestionPromise);
+  const { saved: hasSaved } = data || { saved: false };
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -22,12 +32,10 @@ const SaveQuestion = ({ questionId }: { questionId: string }) => {
     setIsLoading(true);
 
     try {
-      const { success, data, error } = await toggleSaveQuestion({ questionId });
+      const { success, error } = await toggleSaveQuestion({ questionId });
 
       if (!success)
         throw new Error(error?.message || "Failed to save question");
-
-      toast.success(data?.saved ? "Question saved" : "Question removed");
     } catch (error) {
       toast.error("Error", {
         description:
@@ -38,11 +46,9 @@ const SaveQuestion = ({ questionId }: { questionId: string }) => {
     }
   };
 
-  const hasSved = false;
-
   return (
     <Image
-      src={hasSved ? "/icons/star-filled.svg" : "/icons/star-red.svg"}
+      src={hasSaved ? "/icons/star-filled.svg" : "/icons/star-red.svg"}
       alt="save"
       width={18}
       height={18}

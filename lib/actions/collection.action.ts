@@ -36,6 +36,9 @@ export async function toggleSaveQuestion(
 
     if (collection) {
       await Collection.findByIdAndDelete(collection._id);
+
+      revalidatePath(ROUTES.QUESTION(questionId));
+
       return {
         success: true,
         data: { saved: false },
@@ -53,6 +56,39 @@ export async function toggleSaveQuestion(
       success: true,
       data: { saved: true },
       status: 200,
+    };
+  } catch (error) {
+    return handleError(error) as ErrorResponse;
+  }
+}
+
+export async function hasSavedQuestion(
+  params: CollectionBaseParams
+): Promise<ActionResponse<{ saved: boolean }> | ErrorResponse> {
+  const validationResult = await action({
+    params,
+    schema: CollectionBaseSchema,
+    authorized: true,
+  });
+
+  if (validationResult instanceof Error) {
+    return handleError(validationResult) as ErrorResponse;
+  }
+
+  const { questionId } = validationResult.params!;
+  const userId = validationResult.session?.user?.id;
+
+  try {
+    const collection = await Collection.findOne({
+      question: questionId,
+      author: userId,
+    });
+
+    return {
+      success: true,
+      data: {
+        saved: !!collection,
+      },
     };
   } catch (error) {
     return handleError(error) as ErrorResponse;
