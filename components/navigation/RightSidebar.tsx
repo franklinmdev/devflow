@@ -2,23 +2,10 @@ import Image from "next/image";
 import Link from "next/link";
 
 import ROUTES from "@/constants/routes";
+import { getHotQuestions } from "@/lib/actions/question.action";
 
 import TagCard from "../cards/TagCard";
-
-const topQuestions = [
-  {
-    _id: "1",
-    title: "What is the best way to learn React?",
-  },
-  {
-    _id: "2",
-    title: "How to use Tailwind CSS?",
-  },
-  {
-    _id: "3",
-    title: "What is the best way to learn Next.js?",
-  },
-];
+import DataRenderer from "../DataRenderer";
 
 const popularTags = [
   {
@@ -48,29 +35,44 @@ const popularTags = [
   },
 ];
 
-const RightSidebar = () => {
+const RightSidebar = async () => {
+  const { success, data: hotQuestions, error } = await getHotQuestions();
   return (
     <section className="max-xl:hidden top-0 right-0 sticky flex flex-col gap-6 shadow-light-300 dark:shadow-none p-6 pt-36 light-border border-l w-[350px] h-screen overflow-y-auto custom-scrollbar background-light900_dark200">
       <div>
         <h3 className="text-dark200_light900 h3-bold">Top Questions</h3>
-        <div className="flex flex-col gap-[30px] mt-7 w-full">
-          {topQuestions.map(({ _id, title }) => (
-            <Link
-              className="flex justify-between items-center gap-2 cursor-pointer"
-              href={ROUTES.QUESTION(_id.toString())}
-              key={_id}
-            >
-              <p className="text-dark500_light700 body-medium">{title}</p>
-              <Image
-                src="/icons/chevron-right.svg"
-                alt="chevron-right"
-                width={20}
-                height={20}
-                className="invert-colors"
-              />
-            </Link>
-          ))}
-        </div>
+        <DataRenderer
+          success={success}
+          error={error}
+          empty={{
+            title: "No questions found",
+            message:
+              "Be the first to break the silence! 🚀 Ask a question and kickstart the discussion. our wonders!",
+          }}
+          data={hotQuestions}
+          render={(questions) => (
+            <div className="flex flex-col gap-[30px] mt-7 w-full">
+              {questions?.map(({ _id, title }) => (
+                <Link
+                  className="flex justify-between items-center gap-2 cursor-pointer"
+                  href={ROUTES.QUESTION(_id.toString())}
+                  key={_id}
+                >
+                  <p className="text-dark500_light700 line-clamp-2 body-medium">
+                    {title}
+                  </p>
+                  <Image
+                    src="/icons/chevron-right.svg"
+                    alt="chevron-right"
+                    width={20}
+                    height={20}
+                    className="invert-colors min-w-[20px] min-h-[20px]"
+                  />
+                </Link>
+              ))}
+            </div>
+          )}
+        />
       </div>
       <div className="mt-16">
         <h3 className="text-dark200_light900 h3-bold">Popular Tags</h3>
