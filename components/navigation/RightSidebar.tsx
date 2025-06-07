@@ -3,40 +3,18 @@ import Link from "next/link";
 
 import ROUTES from "@/constants/routes";
 import { getHotQuestions } from "@/lib/actions/question.action";
+import { getTopTags } from "@/lib/actions/tag.action";
 
 import TagCard from "../cards/TagCard";
 import DataRenderer from "../DataRenderer";
 
-const popularTags = [
-  {
-    _id: "1",
-    name: "React",
-    questions: 10,
-  },
-  {
-    _id: "2",
-    name: "Next.js",
-    questions: 10,
-  },
-  {
-    _id: "3",
-    name: "Tailwind CSS",
-    questions: 10,
-  },
-  {
-    _id: "4",
-    name: "JavaScript",
-    questions: 10,
-  },
-  {
-    _id: "5",
-    name: "TypeScript",
-    questions: 10,
-  },
-];
-
 const RightSidebar = async () => {
   const { success, data: hotQuestions, error } = await getHotQuestions();
+  const {
+    success: topTagsSuccess,
+    data: topTags,
+    error: topTagsError,
+  } = await getTopTags();
   return (
     <section className="max-xl:hidden top-0 right-0 sticky flex flex-col gap-6 shadow-light-300 dark:shadow-none p-6 pt-36 light-border border-l w-[350px] h-screen overflow-y-auto custom-scrollbar background-light900_dark200">
       <div>
@@ -76,18 +54,29 @@ const RightSidebar = async () => {
       </div>
       <div className="mt-16">
         <h3 className="text-dark200_light900 h3-bold">Popular Tags</h3>
-        <div className="flex flex-col gap-4 mt-7">
-          {popularTags.map(({ _id, name, questions }) => (
-            <TagCard
-              key={_id}
-              _id={_id}
-              name={name}
-              questions={questions}
-              showCount
-              compact
-            />
-          ))}
-        </div>
+        <DataRenderer
+          success={topTagsSuccess}
+          error={topTagsError}
+          empty={{
+            title: "No tags found",
+            message: "No tags found",
+          }}
+          data={topTags}
+          render={(popularTags) => (
+            <div className="flex flex-col gap-4 mt-7">
+              {popularTags.map(({ _id, name, questions }) => (
+                <TagCard
+                  key={_id}
+                  _id={_id}
+                  name={name}
+                  questions={questions || 0}
+                  showCount
+                  compact
+                />
+              ))}
+            </div>
+          )}
+        />
       </div>
     </section>
   );
