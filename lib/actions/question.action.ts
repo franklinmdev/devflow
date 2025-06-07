@@ -269,7 +269,7 @@ export async function getQuestions(
       sortCriteria = { createdAt: -1 };
       break;
     case "unanswered":
-      filterQuery.answers = { $size: 0 };
+      filterQuery.answers = 0;
       sortCriteria = { createdAt: -1 };
       break;
     case "popular":
