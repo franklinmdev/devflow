@@ -1,6 +1,6 @@
 import { model, models, Schema, Types, Document } from "mongoose";
 
-const ACTION_ENUMS = [
+export const ACTION_ENUMS = [
   "view",
   "upvote",
   "downvote",

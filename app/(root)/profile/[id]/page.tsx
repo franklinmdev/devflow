@@ -39,7 +39,17 @@ export default async function Profile({ params, searchParams }: RouteParams) {
     );
 
   const {
-    user: { _id, name, image, username, bio, location, portfolio, createdAt },
+    user: {
+      _id,
+      name,
+      image,
+      username,
+      bio,
+      location,
+      portfolio,
+      createdAt,
+      reputation,
+    },
     totalQuestions,
     totalAnswers,
   } = data!;
@@ -135,6 +145,7 @@ export default async function Profile({ params, searchParams }: RouteParams) {
           SILVER: 0,
           BRONZE: 0,
         }}
+        reputationPoints={reputation || 0}
       />
       <section className="flex gap-10 mt-10">
         <Tabs defaultValue="top-posts" className="flex-[2]">
