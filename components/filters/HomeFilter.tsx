@@ -1,25 +1,25 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
-import React from "react";
+import { useSearchParams, useRouter } from "next/navigation";
+import React, { useState } from "react";
 
-import { formUrlQuery, removeKeysFromQuery } from "@/lib/url";
+import { formUrlQuery, removeKeysFromUrlQuery } from "@/lib/url";
 import { cn } from "@/lib/utils";
 
 import { Button } from "../ui/button";
+
+const filters = [
+  { name: "Newest", value: "newest" },
+  { name: "Popular", value: "popular" },
+  { name: "Unanswered", value: "unanswered" },
+  { name: "Recommeded", value: "recommended" },
+];
 
 const HomeFilter = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const filterParams = searchParams.get("filter");
-  const [active, setActive] = React.useState(filterParams || "");
-
-  const filters = [
-    { name: "React", value: "react" },
-    { name: "Next.js", value: "next.js" },
-    { name: "Node.js", value: "nodejs" },
-    { name: "Typescript", value: "typescript" },
-  ];
+  const [active, setActive] = useState(filterParams || "");
 
   const handleTypeClick = (filter: string) => {
     let newUrl = "";
@@ -27,7 +27,7 @@ const HomeFilter = () => {
     if (filter === active) {
       setActive("");
 
-      newUrl = removeKeysFromQuery({
+      newUrl = removeKeysFromUrlQuery({
         params: searchParams.toString(),
         keysToRemove: ["filter"],
       });
@@ -48,12 +48,12 @@ const HomeFilter = () => {
     <div className="hidden sm:flex flex-wrap gap-3 mt-10">
       {filters.map((filter) => (
         <Button
-          key={filter.value}
+          key={filter.name}
           className={cn(
-            "shadow-none px-6 py-3 rounded-lg capitalize body-medium cursor-pointer",
+            `body-medium rounded-lg px-6 py-3 capitalize shadow-none`,
             active === filter.value
               ? "bg-primary-100 text-primary-500 hover:bg-primary-100 dark:bg-dark-400 dark:text-primary-500 dark:hover:bg-dark-400"
-              : "bg-light-800 text-light-500 hover:bg-light-500 dark:bg-dark-300 dark:text-light-500 dark:hover:bg-dark-300"
+              : "bg-light-800 text-light-500 hover:bg-light-800 dark:bg-dark-300 dark:text-light-500 dark:hover:bg-dark-300"
           )}
           onClick={() => handleTypeClick(filter.value)}
         >
