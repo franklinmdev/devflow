@@ -30,4 +30,5 @@ export const UserFilters = [
   { name: "Newest", value: "newest" },
   { name: "Oldest", value: "oldest" },
   { name: "Popular", value: "popular" },
+  { name: "Highest Reputation", value: "reputation" },
 ];
