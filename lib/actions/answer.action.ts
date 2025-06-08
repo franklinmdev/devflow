@@ -4,13 +4,17 @@ import mongoose from "mongoose";
 import { revalidatePath } from "next/cache";
 
 import ROUTES from "@/constants/routes";
-import { Question } from "@/database";
+import { Question, Vote } from "@/database";
 import Answer, { IAnswerDoc } from "@/database/answer.model";
 
 import action from "../handlers/action";
 import handleError from "../handlers/error";
-import { NotFoundError } from "../http-errors";
-import { AnswerServerSchema, GetAnswersSchema } from "../validations";
+import { ForbiddenError, NotFoundError } from "../http-errors";
+import {
+  AnswerServerSchema,
+  DeleteAnswerSchema,
+  GetAnswersSchema,
+} from "../validations";
 
 export async function createAnswer(
   params: CreateAnswerParams
@@ -116,6 +120,65 @@ export async function getAnswers(
       status: 200,
     };
   } catch (error) {
+    return handleError(error) as ErrorResponse;
+  }
+}
+
+export async function deleteAnswer(
+  params: DeleteAnswerParams
+): Promise<ActionResponse<IAnswerDoc> | ErrorResponse> {
+  const validationResult = await action({
+    params,
+    schema: DeleteAnswerSchema,
+    authorized: true,
+  });
+
+  if (validationResult instanceof Error) {
+    return handleError(validationResult) as ErrorResponse;
+  }
+
+  const { answerId } = validationResult.params!;
+  const userId = validationResult!.session!.user!.id;
+
+  const session = await mongoose.startSession();
+
+  try {
+    session.startTransaction();
+    const answer = await Answer.findById(answerId);
+    if (!answer) {
+      throw new NotFoundError("Answer");
+    }
+
+    if (answer.author.toString() !== userId) {
+      throw new ForbiddenError("Unauthorized");
+    }
+
+    // reduce the question answers count
+    await Question.findByIdAndUpdate(
+      answer.question,
+      { $inc: { answers: -1 } },
+      { new: true }
+    );
+
+    // delete votes associated with answer
+    await Vote.deleteMany({ actionId: answerId, actionType: "answer" });
+
+    // delete the answer
+    await Answer.findByIdAndDelete(answerId);
+
+    // Commit transaction
+    await session.commitTransaction();
+    await session.endSession();
+    revalidatePath(ROUTES.QUESTION(answer.question.toString()));
+
+    return {
+      success: true,
+      status: 200,
+    };
+  } catch (error) {
+    await session.abortTransaction();
+    await session.endSession();
+
     return handleError(error) as ErrorResponse;
   }
 }

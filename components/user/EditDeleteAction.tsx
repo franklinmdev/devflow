@@ -16,6 +16,8 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import ROUTES from "@/constants/routes";
+import { deleteAnswer } from "@/lib/actions/answer.action";
+import { deleteQuestion } from "@/lib/actions/question.action";
 import { cn } from "@/lib/utils";
 
 interface EditDeleteActionProps {
@@ -30,11 +32,23 @@ const EditDeleteAction = ({ type, itemId }: EditDeleteActionProps) => {
   };
   const handleDelete = async () => {
     if (type === "question") {
-      // TODO: delete question
-      toast.success("Question deleted successfully");
+      const result = await deleteQuestion({ questionId: itemId });
+      if (result.success) {
+        toast.success("Question deleted successfully");
+      } else {
+        toast.error("Failed to delete question", {
+          description: result.error?.message || "Something went wrong",
+        });
+      }
     } else if (type === "answer") {
-      // TODO: delete answer
-      toast.success("Answer deleted successfully");
+      const result = await deleteAnswer({ answerId: itemId });
+      if (result.success) {
+        toast.success("Answer deleted successfully");
+      } else {
+        toast.error("Failed to delete answer", {
+          description: result.error?.message || "Something went wrong",
+        });
+      }
     }
   };
 

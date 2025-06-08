@@ -182,7 +182,7 @@ export const AIAnswerSchema = z.object({
     .max(130, { message: "Question cannot exceed 130 characters." }),
   content: z
     .string()
-    .min(10, { message: "Answer has to be at least 10 characters." }),
+    .min(5, { message: "Answer has to be at least 5 characters." }),
   userAnswer: z.string().optional(),
 });
 
@@ -227,4 +227,12 @@ export const GetUserAnswersSchema = PaginatedSearchParamsSchema.extend({
 
 export const GetUserTagsSchema = z.object({
   userId: z.string().min(1, { message: "User ID is required." }),
+});
+
+export const DeleteQuestionSchema = z.object({
+  questionId: z.string().min(1, { message: "Question ID is required." }),
+});
+
+export const DeleteAnswerSchema = z.object({
+  answerId: z.string().min(1, { message: "Answer ID is required." }),
 });
