@@ -24,9 +24,71 @@ const spaceGrotesk = Space_Grotesk({
 export const metadata: Metadata = {
   title: "Dev Overflow",
   description:
-    "A community-driven platform for asking and answering programming questions. Get help, share knowledge, and collaborate with developers from around the world. Explore topics in web development, mobile app development, algorithms, data structures, and more.",
+    "Dev Overflow is a community-driven platform to ask and answer real-world programming questions. Learn, grow, and connect with developers around the world.",
+
+  generator: "Next.js",
+  applicationName: "Dev Overflow",
+  referrer: "origin-when-cross-origin",
+
+  keywords: [
+    "Dev Overflow",
+    "programming questions",
+    "developer Q&A",
+    "web development",
+    "JavaScript",
+    "React",
+    "Node.js",
+    "algorithms",
+    "data structures",
+    "developer community",
+  ],
+
+  authors: [
+    { name: "Franklin" },
+    { name: "Dev Overflow Team", url: "https://devoverflow.dev/team" },
+  ],
+  creator: "Franklin",
+  publisher: "Dev Overflow",
+
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+
+  robots: {
+    index: true,
+    follow: true,
+    nocache: false,
+    googleBot: {
+      index: true,
+      follow: true,
+      noimageindex: false,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+
   icons: {
-    icon: "/images/site-logo.svg",
+    icon: "/images/site-logo.svg", // regular favicon
+    shortcut: "/favicon.ico", // browser address bar icon
+    apple: "/apple-touch-icon.png", // Apple devices
+    other: [
+      {
+        rel: "mask-icon",
+        url: "/safari-pinned-tab.svg",
+        color: "#5bbad5",
+      },
+    ],
+  },
+
+  // Optional: Theme color for browser UI and mobile experience
+  themeColor: "#18181b",
+  // Optional: Color for Microsoft tiles and pinned sites
+  other: {
+    "msapplication-TileColor": "#ffffff",
+    "msapplication-TileImage": "/mstile-150x150.png",
   },
 };
 
