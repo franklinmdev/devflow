@@ -3,6 +3,7 @@
 import mongoose, { FilterQuery, Types } from "mongoose";
 import { revalidatePath } from "next/cache";
 import { after } from "next/server";
+import { cache } from "react";
 
 import { auth } from "@/auth";
 import ROUTES from "@/constants/routes";
@@ -208,13 +209,12 @@ export async function editQuestion(
   }
 }
 
-export async function getQuestion(
+export const getQuestion = cache(async function getQuestion(
   params: GetQuestionParams
 ): Promise<ActionResponse<Question> | ErrorResponse> {
   const validationResult = await action({
     params,
     schema: GetQuestionSchema,
-    authorized: true,
   });
 
   if (validationResult instanceof Error) {
@@ -225,21 +225,16 @@ export async function getQuestion(
 
   try {
     const question = await Question.findById(questionId)
-      .populate("tags")
+      .populate("tags", "_id name")
       .populate("author", "_id name image");
-    if (!question) {
-      throw new NotFoundError("Question");
-    }
 
-    return {
-      success: true,
-      data: JSON.parse(JSON.stringify(question)),
-      status: 200,
-    };
+    if (!question) throw new Error("Question not found");
+
+    return { success: true, data: JSON.parse(JSON.stringify(question)) };
   } catch (error) {
     return handleError(error) as ErrorResponse;
   }
-}
+});
 
 export async function getRecommendedQuestions({
   userId,
