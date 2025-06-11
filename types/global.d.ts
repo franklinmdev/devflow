@@ -92,3 +92,21 @@ interface BadgeCounts {
   SILVER: number;
   BRONZE: number;
 }
+
+interface Job {
+  job_id: string;
+  job_title: string;
+  employer_logo: string;
+  employer_name: string;
+  job_location: string;
+  job_country: string;
+  job_apply_link: string;
+  job_employment_type_text: string;
+  job_min_salary: string;
+  job_max_salary: string;
+  job_description: string;
+  job_highlights: {
+    Qualifications: string[];
+  };
+  job_posted_at_datetime_utc: string;
+}

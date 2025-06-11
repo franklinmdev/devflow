@@ -57,3 +57,8 @@ export const EMPTY_USERS = {
   title: "No Users Found",
   message: "You're ALONE. The only one here. More users are comming soon.",
 };
+
+export const EMPTY_JOBS = {
+  title: "No Jobs Found",
+  message: "We're looking for some jobs. More jobs are comming soon.",
+};
