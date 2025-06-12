@@ -257,3 +257,15 @@ export const GlobalSearchSchema = z.object({
     })
     .optional(),
 });
+
+export const UpdateUserSchema = z.object({
+  name: z.string().min(1, { message: "Name is required." }),
+  username: z.string().min(1, { message: "Username is required." }),
+  bio: z.string().optional(),
+  location: z.string().optional(),
+  portfolio: z
+    .string()
+    .url({ message: "Please provide a valid portfolio URL." })
+    .optional()
+    .or(z.literal("")),
+});

@@ -125,3 +125,11 @@ interface RecommendationParams {
 interface GetJobsParams extends PaginatedSearchParams {
   location?: string;
 }
+
+interface UpdateUserParams {
+  name?: string;
+  username?: string;
+  bio?: string;
+  location?: string;
+  portfolio?: string;
+}

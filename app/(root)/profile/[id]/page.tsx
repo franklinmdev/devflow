@@ -114,7 +114,7 @@ export default async function Profile({ params, searchParams }: RouteParams) {
                 />
               )}
               {location && (
-                <ProfileLink imgUrl="/icons/location.svg" title="Location" />
+                <ProfileLink imgUrl="/icons/location.svg" title={location} />
               )}
               <ProfileLink
                 imgUrl="/icons/calendar.svg"
@@ -131,7 +131,7 @@ export default async function Profile({ params, searchParams }: RouteParams) {
         <div className="flex justify-end sm:mt-3 max-sm:mb-5 max-sm:w-full">
           {loggedInUser?.user?.id === _id && (
             <Link href={ROUTES.EDIT_PROFILE}>
-              <Button className="px-4 py-3 min-w-44 min-h-12 text-dark300_light900 paragraph-medium btn-secondary">
+              <Button className="px-4 py-3 min-w-44 min-h-12 text-dark300_light900 cursor-pointer paragraph-medium btn-secondary">
                 Edit Profile
               </Button>
             </Link>
