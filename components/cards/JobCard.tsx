@@ -17,6 +17,7 @@ const LocationBadge = ({ location }: { location: string }) => {
         alt="Job location in Australia"
         width={16}
         height={16}
+        style={{ width: "16px", height: "auto" }}
         className="flex-shrink-0 object-contain"
       />
       <span className="hidden md:block text-dark100_light900 whitespace-nowrap small-medium">
@@ -49,6 +50,7 @@ const JobCard = ({ job }: Props) => {
             alt={job.employer_name}
             width={64}
             height={64}
+            style={{ width: "64px", height: "auto" }}
             className="hidden md:block rounded-lg object-contain"
           />
         )}
@@ -99,6 +101,7 @@ const JobCard = ({ job }: Props) => {
                   alt="External link icon"
                   width={16}
                   height={16}
+                  style={{ width: "16px", height: "auto" }}
                   className="object-contain"
                 />
               </Link>

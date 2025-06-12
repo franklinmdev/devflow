@@ -60,3 +60,28 @@ export function assignBadges(params: {
 
   return badgeCounts;
 }
+
+export const getSearchResultLink = (result: GlobalSearchResult): string => {
+  switch (result.type) {
+    case "question":
+    case "answer":
+      return `/questions/${result.id}`;
+    case "user":
+      return `/profile/${result.id}`;
+    case "tag":
+      return `/tags/${result.id}`;
+    default:
+      return "/";
+  }
+};
+
+export const getSearchResultIcon = (type: string): string => {
+  const iconMap: Record<string, string> = {
+    question: "/icons/question.svg",
+    user: "/icons/user.svg",
+    tag: "/icons/tag.svg",
+    answer: "/icons/message.svg",
+  };
+
+  return iconMap[type] || "/icons/search.svg";
+};

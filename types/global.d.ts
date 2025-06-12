@@ -110,3 +110,14 @@ interface Job {
   };
   job_posted_at_datetime_utc: string;
 }
+
+interface GlobalSearchParams {
+  query: string;
+  type?: "question" | "user" | "answer" | "tag";
+}
+
+interface GlobalSearchResult {
+  title: string;
+  type: "question" | "user" | "answer" | "tag";
+  id: string;
+}

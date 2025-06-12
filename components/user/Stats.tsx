@@ -18,7 +18,13 @@ interface StatsCardProps {
 const StatsCard = ({ imgUrl, value, title }: StatsCardProps) => {
   return (
     <div className="flex flex-wrap items-center gap-4 shadow-light-300 dark:shadow-dark-200 p-6 border light-border rounded-md background-light900_dark300">
-      <Image src={imgUrl} alt={title} width={40} height={50} />
+      <Image
+        src={imgUrl}
+        alt={title}
+        width={40}
+        height={50}
+        style={{ width: "40px", height: "auto" }}
+      />
       <div>
         <p className="text-dark200_light900 paragraph-semibold">
           {formatNumber(value)}

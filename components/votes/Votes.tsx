@@ -72,6 +72,7 @@ const Votes = ({
           }
           width={18}
           height={18}
+          style={{ width: "18px", height: "auto" }}
           alt="upvote"
           className={cn("cursor-pointer", { "opacity-50": isLoading })}
           aria-label="upvote"
@@ -92,6 +93,7 @@ const Votes = ({
           }
           width={18}
           height={18}
+          style={{ width: "18px", height: "auto" }}
           alt="downvote"
           className={cn("cursor-pointer", { "opacity-50": isLoading })}
           aria-label="downvote"

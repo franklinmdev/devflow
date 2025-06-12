@@ -26,6 +26,7 @@ const MobileNavigation = async () => {
           src="/icons/hamburger.svg"
           width={36}
           height={36}
+          style={{ width: "36px", height: "auto" }}
           alt="Menu"
           className="sm:hidden invert-colors cursor-pointer"
         />
@@ -40,6 +41,7 @@ const MobileNavigation = async () => {
             src="/images/site-logo.svg"
             width={23}
             height={23}
+            style={{ width: "23px", height: "auto" }}
             alt="Logo"
           />
 

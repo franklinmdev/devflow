@@ -52,6 +52,7 @@ const SaveQuestion = ({ questionId, hasSavedQuestionPromise }: Props) => {
       alt="save"
       width={18}
       height={18}
+      style={{ width: "18px", height: "auto" }}
       className={cn("cursor-pointer", isLoading && "opacity-50")}
       aria-label="save"
       onClick={handleSave}

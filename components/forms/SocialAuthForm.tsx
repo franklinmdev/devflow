@@ -36,6 +36,7 @@ const SocialAuthForm = () => {
           alt="GitHub Logo"
           width={20}
           height={20}
+          style={{ width: "20px", height: "auto" }}
           className="invert-colors mr-2.5 object-contain"
         />
         Log in with GitHub
@@ -46,6 +47,7 @@ const SocialAuthForm = () => {
           alt="Google Logo"
           width={20}
           height={20}
+          style={{ width: "20px", height: "auto" }}
         />
         Log in with Google
       </Button>

@@ -50,6 +50,7 @@ const LeftSidebar = async () => {
                   alt="account"
                   width={20}
                   height={20}
+                  style={{ width: "20px", height: "auto" }}
                   className="min-lg:hidden invert-colors"
                 />
                 <span className="hidden min-lg:block primary-text-gradient">
@@ -67,6 +68,7 @@ const LeftSidebar = async () => {
                   alt="sign-up"
                   width={20}
                   height={20}
+                  style={{ width: "20px", height: "auto" }}
                   className="min-lg:hidden invert-colors"
                 />
                 <span className="hidden min-lg:block">Sign Up</span>

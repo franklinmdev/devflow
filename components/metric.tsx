@@ -21,7 +21,6 @@ const Metric = ({
   value,
   title,
   textStyles,
-  isAuthor,
   href,
   imgStyles,
   titleStyles,
@@ -33,6 +32,7 @@ const Metric = ({
         alt={alt}
         width={16}
         height={16}
+        style={{ width: "16px", height: "auto" }}
         className={cn("rounded-full object-contain", imgStyles)}
       />
       <p className={cn(textStyles, "flex items-center gap-1")}>{value}</p>

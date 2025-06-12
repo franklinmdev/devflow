@@ -10,12 +10,18 @@ export async function GET() {
 
     logger.info(`Fetching location from: ${apiUrl}`);
 
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 5000);
+
     const response = await fetch(apiUrl, {
       cache: "no-store",
       headers: {
         "User-Agent": "dev-overflow/1.0",
       },
+      signal: controller.signal,
     });
+
+    clearTimeout(timeoutId);
 
     // Handle rate limiting (HTTP 429) as per ip-api documentation
     if (response.status === 429) {
@@ -59,6 +65,16 @@ export async function GET() {
     return NextResponse.json({ success: true, data });
   } catch (error) {
     logger.error("Location API error:", error);
+
+    // Handle timeout/abort errors more gracefully
+    if (error instanceof Error && error.name === "AbortError") {
+      logger.warn("Location API request timed out");
+      return NextResponse.json(
+        { success: false, error: "Location service timeout" },
+        { status: 408 }
+      );
+    }
+
     return handleError(error, "api") as Response;
   }
 }

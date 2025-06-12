@@ -50,7 +50,7 @@ const NavLinks = ({ isMobileNav = false, userId }: NavLinksProps) => {
               alt={link.label}
               width={20}
               height={20}
-              style={{ width: 20, height: 20 }}
+              style={{ width: "20px", height: "auto" }}
             />
             <p
               className={cn(

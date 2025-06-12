@@ -245,3 +245,15 @@ export const CreateInteractionSchema = z.object({
   actionId: z.string().min(1),
   authorId: z.string().min(1),
 });
+
+export const GlobalSearchSchema = z.object({
+  query: z
+    .string()
+    .min(1, { message: "Search query is required." })
+    .max(100, { message: "Search query cannot exceed 100 characters." }),
+  type: z
+    .enum(["question", "user", "answer", "tag"], {
+      message: "Invalid search type.",
+    })
+    .optional(),
+});
