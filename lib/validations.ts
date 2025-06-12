@@ -1,7 +1,5 @@
 import { z } from "zod";
 
-import { ACTION_ENUMS } from "@/database/interaction.model";
-
 export const SignInSchema = z.object({
   email: z
     .string()
@@ -240,7 +238,16 @@ export const DeleteAnswerSchema = z.object({
 });
 
 export const CreateInteractionSchema = z.object({
-  action: z.enum(ACTION_ENUMS),
+  action: z.enum([
+    "view",
+    "upvote",
+    "downvote",
+    "bookmark",
+    "post",
+    "edit",
+    "delete",
+    "search",
+  ]),
   actionTarget: z.enum(["question", "answer"]),
   actionId: z.string().min(1),
   authorId: z.string().min(1),
