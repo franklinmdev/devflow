@@ -1,7 +1,9 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState, useMemo, useCallback } from "react";
 
+import { api } from "@/lib/api";
 import { formUrlQuery } from "@/lib/url";
 
 import {
@@ -13,20 +15,78 @@ import {
   SelectValue,
 } from "../ui/select";
 
-const locationFilters = [
-  { name: "United States", value: "united-states" },
-  { name: "Canada", value: "canada" },
-  { name: "United Kingdom", value: "united-kingdom" },
-  { name: "Australia", value: "australia" },
-  { name: "India", value: "india" },
-  { name: "All", value: "all" },
-];
-
 const JobsLocationFilter = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const [locationFilters, setLocationFilters] = useState<
+    {
+      name: string;
+      value: string;
+    }[]
+  >([]);
+  const [hasAttemptedLocationFetch, setHasAttemptedLocationFetch] =
+    useState(false);
 
   const paramsLocation = searchParams.get("location");
+
+  const searchParamsString = useMemo(
+    () => searchParams.toString(),
+    [searchParams]
+  );
+
+  // Memoize the router push function
+  const routerPush = useCallback(
+    (url: string) => {
+      router.push(url, { scroll: false });
+    },
+    [router]
+  );
+
+  useEffect(() => {
+    const fetchCountries = async () => {
+      try {
+        const result = await api.location.getCountries();
+        if (result.success && result.data) {
+          setLocationFilters(result.data);
+        }
+      } catch (error) {
+        console.error("Countries fetch error:", error);
+      }
+    };
+
+    fetchCountries();
+  }, []);
+
+  useEffect(() => {
+    const fetchLocation = async () => {
+      try {
+        const result = await api.location.getUserLocation();
+
+        if (result.success && result.data) {
+          const newUrl = formUrlQuery({
+            params: searchParamsString,
+            key: "location",
+            value: result.data.countryCode || "all",
+          });
+
+          routerPush(newUrl);
+        }
+      } catch (error) {
+        console.error("Location fetch error:", error);
+      } finally {
+        setHasAttemptedLocationFetch(true);
+      }
+    };
+
+    if (!paramsLocation && !hasAttemptedLocationFetch) {
+      fetchLocation();
+    }
+  }, [
+    paramsLocation,
+    hasAttemptedLocationFetch,
+    searchParamsString,
+    routerPush,
+  ]);
 
   const handleUpdateParams = (value: string) => {
     const newUrl = formUrlQuery({
@@ -42,7 +102,7 @@ const JobsLocationFilter = () => {
     <div className="relative flex-1">
       <Select
         onValueChange={handleUpdateParams}
-        defaultValue={paramsLocation || undefined}
+        value={paramsLocation || undefined}
       >
         <SelectTrigger
           className="flex items-center gap-4 px-4 rounded-[10px] w-full min-h-[56px] background-light800_darkgradient grow"

@@ -18,7 +18,7 @@ const QuestionCard = ({
 }: QuestionCardProps) => {
   return (
     <div className="p-9 sm:px-11 rounded-[10px] card-wrapper">
-      <div className="flex sm:flex-row flex-col-reverse justify-between items-center gap-5">
+      <div className="flex sm:flex-row flex-col-reverse justify-between gap-5">
         <div className="flex-1">
           <span className="sm:hidden flex text-dark-400_light800 line-clamp-1 subtle-regular">
             {dayjs(createdAt).fromNow()}

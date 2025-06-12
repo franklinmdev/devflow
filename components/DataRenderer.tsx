@@ -46,6 +46,7 @@ const StateSkeleton = ({
           width={270}
           height={200}
           className="hidden dark:block object-contain"
+          style={{ height: "auto" }}
         />
         <Image
           src={image.light}
@@ -53,6 +54,7 @@ const StateSkeleton = ({
           width={270}
           height={200}
           className="dark:hidden block object-contain"
+          style={{ height: "auto" }}
         />
       </>
       <h2 className="mt-8 text-dark200_light900 h2-bold">{title}</h2>

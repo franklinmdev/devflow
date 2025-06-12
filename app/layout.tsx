@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, Space_Grotesk } from "next/font/google";
 import { SessionProvider } from "next-auth/react";
 import { Toaster } from "sonner";
@@ -20,6 +20,10 @@ const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
 });
+
+export const viewport: Viewport = {
+  themeColor: "#18181b",
+};
 
 export const metadata: Metadata = {
   title: "Dev Overflow",
@@ -83,8 +87,6 @@ export const metadata: Metadata = {
     ],
   },
 
-  // Optional: Theme color for browser UI and mobile experience
-  themeColor: "#18181b",
   // Optional: Color for Microsoft tiles and pinned sites
   other: {
     "msapplication-TileColor": "#ffffff",

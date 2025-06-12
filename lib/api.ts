@@ -76,4 +76,8 @@ export const api = {
         body: JSON.stringify({ question, content, userAnswer }),
       }),
   },
+  location: {
+    getUserLocation: () => fetchHandler(`${API_BASE_URL}/location`),
+    getCountries: () => fetchHandler(`${API_BASE_URL}/countries`),
+  },
 };

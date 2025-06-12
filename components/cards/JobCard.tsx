@@ -28,8 +28,13 @@ const LocationBadge = ({ location }: { location: string }) => {
 
 const JobCard = ({ job }: Props) => {
   const formatSalary = () => {
-    if (job.job_min_salary && job.job_max_salary) {
-      return `${job.job_min_salary} - ${job.job_max_salary}`;
+    if (
+      job.job_min_salary &&
+      job.job_max_salary &&
+      job.job_min_salary !== "" &&
+      job.job_max_salary !== ""
+    ) {
+      return `$${job.job_min_salary}k - $${job.job_max_salary}k`;
     }
     return "--";
   };
@@ -38,13 +43,15 @@ const JobCard = ({ job }: Props) => {
     <article className="p-6 sm:p-8 sm:px-11 rounded-[10px] card-wrapper">
       <div className="flex items-start gap-5">
         {/* Company Logo */}
-        <Image
-          src={job.employer_logo}
-          alt={job.employer_name}
-          width={64}
-          height={64}
-          className="hidden md:block rounded-lg object-contain"
-        />
+        {job.employer_logo && (
+          <Image
+            src={job.employer_logo}
+            alt={job.employer_name}
+            width={64}
+            height={64}
+            className="hidden md:block rounded-lg object-contain"
+          />
+        )}
         <div className="w-full">
           <div className="flex justify-between items-start gap-5 w-full">
             <div className="flex flex-col gap-2">

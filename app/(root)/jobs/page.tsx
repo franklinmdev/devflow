@@ -1,95 +1,25 @@
 import JobCard from "@/components/cards/JobCard";
 import DataRenderer from "@/components/DataRenderer";
 import JobsLocationFilter from "@/components/filters/JobsLocationFilter";
+import Pagination from "@/components/Pagination";
 import LocalSearch from "@/components/search/LocalSearch";
-import { Button } from "@/components/ui/button";
 import ROUTES from "@/constants/routes";
-import { DEFAULT_ERROR, EMPTY_JOBS } from "@/constants/states";
+import { EMPTY_JOBS } from "@/constants/states";
+import { getJobs } from "@/lib/actions/jobs.action";
 
-const jobs = [
-  {
-    job_id: "1",
-    employer_logo:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQYoo7Keio8qsOsEA4YelR08GaHWug8MGWcCB-&s=0",
-    job_title: "Principal Salesforce Developer",
-    employer_name: "Atlassian",
-    job_location: "Melbourne, AU",
-    job_country: "AU",
-    job_apply_link:
-      "https://careers.united.com/us/en/job/WHQ00024224/Software-Developer?utm_campaign=google_jobs_apply&utm_source=google_jobs_apply&utm_medium=organic",
-    job_employment_type_text: "Full-time",
-    job_min_salary: "80k",
-    job_max_salary: "100k",
-    job_description:
-      "Atlassian Company Join Atlassian and reimagine the communications and technologies that connect the world.",
-    job_highlights: {
-      Qualifications: ["Salesforce", "Development", "Principal"],
-    },
-    job_posted_at_datetime_utc: "2024-01-15T00:00:00.000Z",
-  },
-  {
-    job_id: "2",
-    job_title: "C++ Software Developer",
-    employer_name: "TechCorp",
-    job_location: "Melbourne, AU",
-    job_country: "AU",
-    job_apply_link:
-      "https://careers.united.com/us/en/job/WHQ00024224/Software-Developer?utm_campaign=google_jobs_apply&utm_source=google_jobs_apply&utm_medium=organic",
-    job_employment_type_text: "Full-time",
-    employer_logo:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQYoo7Keio8qsOsEA4YelR08GaHWug8MGWcCB-&s=0",
-    job_min_salary: "70k",
-    job_max_salary: "90k",
-    job_description:
-      "We're looking for a mid-level UX designer to join our team.",
-    job_highlights: {
-      Qualifications: ["C++", "Software", "Development"],
-    },
-    job_posted_at_datetime_utc: "2024-01-12T00:00:00.000Z",
-  },
-  {
-    job_id: "3",
-    job_title: "Application Developer III",
-    employer_name: "DRW",
-    job_location: "Melbourne, AU",
-    job_country: "AU",
-    job_apply_link:
-      "https://careers.united.com/us/en/job/WHQ00024224/Software-Developer?utm_campaign=google_jobs_apply&utm_source=google_jobs_apply&utm_medium=organic",
-    job_employment_type_text: "Full-time",
-    employer_logo:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQYoo7Keio8qsOsEA4YelR08GaHWug8MGWcCB-&s=0",
-    job_min_salary: "85k",
-    job_max_salary: "105k",
-    job_description:
-      "Atlassian Company Join Atlassian and reimagine the communications and technologies that connect the world.",
-    job_highlights: {
-      Qualifications: ["Application Development", "Senior Level"],
-    },
-    job_posted_at_datetime_utc: "2024-01-10T00:00:00.000Z",
-  },
-  {
-    job_id: "4",
-    job_title: "Staff Developer Advocate",
-    employer_name: "Microsoft",
-    job_location: "Melbourne, AU",
-    job_country: "AU",
-    job_apply_link:
-      "https://careers.united.com/us/en/job/WHQ00024224/Software-Developer?utm_campaign=google_jobs_apply&utm_source=google_jobs_apply&utm_medium=organic",
-    job_employment_type_text: "Full-time",
-    employer_logo:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQYoo7Keio8qsOsEA4YelR08GaHWug8MGWcCB-&s=0",
-    job_min_salary: "90k",
-    job_max_salary: "120k",
-    job_description:
-      "We're looking for an experienced frontend developer to join our team.",
-    job_highlights: {
-      Qualifications: ["Developer Relations", "Advocacy", "Staff"],
-    },
-    job_posted_at_datetime_utc: "2024-01-08T00:00:00.000Z",
-  },
-];
+export default async function Jobs({ searchParams }: RouteParams) {
+  const params = await searchParams;
+  const { query, location, page, pageSize } = params;
 
-export default function Jobs() {
+  const { success, data, error } = await getJobs({
+    query: query || "",
+    location: location || "all",
+    page: Number(page) || 1,
+    pageSize: Number(pageSize) || 10,
+  });
+
+  const { jobs, isNext } = data || {};
+
   return (
     <>
       <section className="flex sm:flex-row flex-col-reverse justify-between sm:items-center gap-4 w-full">
@@ -104,13 +34,13 @@ export default function Jobs() {
           />
           <JobsLocationFilter />
         </div>
-        <Button className="px-4 py-3 lg:w-fit max-lg:w-full min-h-[46px] !text-light-900 cursor-pointer primary-gradient">
+        {/* <Button className="px-4 py-3 lg:w-fit max-lg:w-full min-h-[46px] !text-light-900 cursor-pointer primary-gradient">
           Find Jobs
-        </Button>
+        </Button> */}
       </section>
       <DataRenderer
-        success={true}
-        error={DEFAULT_ERROR} // TODO: Add error handling
+        success={success}
+        error={error}
         data={jobs}
         empty={EMPTY_JOBS}
         render={(jobs) => (
@@ -121,6 +51,7 @@ export default function Jobs() {
           </div>
         )}
       />
+      <Pagination page={page} isNext={isNext || false} />
     </>
   );
 }
